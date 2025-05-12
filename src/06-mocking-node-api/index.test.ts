@@ -76,10 +76,10 @@ describe('doStuffByInterval', () => {
 });
 
 describe('readFileAsynchronously', () => {
+  const pathToFile = 'path/to/file';
+
   test('should call join with pathToFile', async () => {
     const join = jest.spyOn(path, 'join');
-
-    const pathToFile = 'path/to/file';
 
     await readFileAsynchronously(pathToFile);
 
@@ -89,8 +89,6 @@ describe('readFileAsynchronously', () => {
   test('should return null if file does not exist', async () => {
     jest.spyOn(fs, 'existsSync').mockReturnValue(false);
 
-    const pathToFile = 'path/to/file';
-
     const file = await readFileAsynchronously(pathToFile);
 
     expect(file).toBeNull();
@@ -98,10 +96,8 @@ describe('readFileAsynchronously', () => {
 
   test('should return file content if file exists', async () => {
     const fileContent = 'Hello world!';
-    const pathToFile = 'path/to/file';
 
     jest.spyOn(fs, 'existsSync').mockReturnValue(true);
-
     jest.spyOn(fs.promises, 'readFile').mockResolvedValue(fileContent);
 
     const result = await readFileAsynchronously(pathToFile);
