@@ -8,15 +8,15 @@ import {
 } from '.';
 
 describe('BankAccount', () => {
+  const initialBalance = 100;
+
   test('should create account with initial balance', () => {
-    const initialBalance = 100;
     const bankAccount = getBankAccount(initialBalance);
 
     expect(bankAccount.getBalance()).toBe(initialBalance);
   });
 
   test('should throw InsufficientFundsError error when withdrawing more than balance', () => {
-    const initialBalance = 100;
     const bankAccount = getBankAccount(initialBalance);
     const moneyToWithdraw = initialBalance + 100;
 
@@ -26,7 +26,6 @@ describe('BankAccount', () => {
   });
 
   test('should throw error when transferring more than balance', () => {
-    const initialBalance = 100;
     const bankAccount = getBankAccount(initialBalance);
     const moneyToTransfer = initialBalance + 100;
     const accountToTransfer = getBankAccount(initialBalance);
@@ -37,7 +36,6 @@ describe('BankAccount', () => {
   });
 
   test('should throw error when transferring to the same account', () => {
-    const initialBalance = 100;
     const bankAccount = getBankAccount(initialBalance);
     const moneyToTransfer = initialBalance - 50;
 
@@ -47,7 +45,6 @@ describe('BankAccount', () => {
   });
 
   test('should deposit money', () => {
-    const initialBalance = 100;
     const bankAccount = getBankAccount(initialBalance);
     bankAccount.deposit(100);
 
@@ -55,7 +52,6 @@ describe('BankAccount', () => {
   });
 
   test('should withdraw money', () => {
-    const initialBalance = 100;
     const bankAccount = getBankAccount(initialBalance);
     bankAccount.withdraw(50);
 
@@ -63,7 +59,6 @@ describe('BankAccount', () => {
   });
 
   test('should transfer money', () => {
-    const initialBalance = 100;
     const bankAccount = getBankAccount(initialBalance);
     const accountToTransfer = getBankAccount(120);
     bankAccount.transfer(20, accountToTransfer);
@@ -75,7 +70,6 @@ describe('BankAccount', () => {
   test('fetchBalance should return number in case if request did not failed', async () => {
     jest.spyOn(_, 'random').mockReturnValue(1);
 
-    const initialBalance = 100;
     const bankAccount = getBankAccount(initialBalance);
 
     const balance = await bankAccount.fetchBalance();
@@ -86,7 +80,6 @@ describe('BankAccount', () => {
   test('should set new balance if fetchBalance returned number', async () => {
     jest.spyOn(_, 'random').mockReturnValue(40);
 
-    const initialBalance = 100;
     const bankAccount = getBankAccount(initialBalance);
 
     await bankAccount.synchronizeBalance();
@@ -97,7 +90,6 @@ describe('BankAccount', () => {
   test('should throw SynchronizationFailedError if fetchBalance returned null', async () => {
     jest.spyOn(_, 'random').mockReturnValue(0);
 
-    const initialBalance = 100;
     const bankAccount = getBankAccount(initialBalance);
 
     await expect(bankAccount.synchronizeBalance()).rejects.toThrow(
